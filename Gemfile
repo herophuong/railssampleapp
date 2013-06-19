@@ -11,6 +11,8 @@ gem 'pg'
 
 group :development, :test do
     gem 'rspec-rails', '2.9.0'
+    gem 'guard-rspec', '0.5.5'
+
 end
 
 # Gems used only for assets and not required
@@ -43,5 +45,8 @@ gem 'jquery-rails', '3.0.1'
 # gem 'debugger'
 
 group :test do
+    gem 'rspec-rails', '2.9.0'
     gem 'capybara', '1.1.2'
+    gem 'rb-inotify', '0.9'
+    gem 'libnotify', '0.5.9'
 end
