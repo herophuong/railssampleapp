@@ -19,6 +19,6 @@ class User < ActiveRecord::Base
   has_secure_password
   validates :password_confirmation, presence: true
   
-  before_save { |user| user.email = email.downcase }
+  before_save { self.email.downcase! }
   
 end
