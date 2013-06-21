@@ -29,6 +29,7 @@ group :assets do
 end
 
 gem 'jquery-rails', '3.0.1'
+gem 'jquery-migrate-rails', '1.1.1'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
