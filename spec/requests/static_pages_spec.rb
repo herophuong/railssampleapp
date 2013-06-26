@@ -16,6 +16,39 @@ describe "StaticPages" do
         let (:page_title) { '' }
         
         it_should_behave_like "all static pages"
+        
+        describe "for signed-in user" do
+            let(:user) { FactoryGirl.create(:user) }
+            before do
+                31.times { FactoryGirl.create(:micropost, user: user, content: "Lorem Ipsum!") }
+                sign_in user
+                visit root_path
+            end
+            
+            it "should render the user's feed" do
+                user.feed.paginate(page: 1).each do |item|
+                    page.should have_selector("li##{item.id}", text: item.content)
+                end
+            end
+            
+            it "should have the post count" do
+                page.should have_content("#{user.microposts.count} micropost")
+            end
+            
+            describe "pagination" do
+                it { should have_selector("div.pagination") }
+            end
+            
+            describe "should not see delete link on other users' posts" do
+                let(:other_user) { FactoryGirl.create(:user) }
+                before do
+                    31.times { FactoryGirl.create(:micropost, user: other_user, content: "Lorem Ipsum") }
+                    visit user_path(other_user)
+                end
+                
+                it { should_not have_link('delete') }
+            end
+        end
     end
     
     describe "Help page" do
