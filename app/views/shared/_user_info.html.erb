@@ -4,9 +4,11 @@
 <h1>
     <%= current_user.name %>
 </h1>
+<% if request.path != user_path(current_user) %>
 <span>
     <%= link_to "view my profile", current_user %>
 </span>
+<% end %>
 <span>
     <%= pluralize(current_user.microposts.count, "micropost") %>
 </span>
