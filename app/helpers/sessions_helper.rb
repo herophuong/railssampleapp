@@ -45,4 +45,8 @@ module SessionsHelper
     def store_location
         session[:return_to] = request.fullpath
     end
+    
+    def signed_in_user_should_not_visit
+        redirect_to(root_path) unless current_user.nil?
+    end
 end

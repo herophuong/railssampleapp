@@ -33,6 +33,8 @@ describe User do
     it { should respond_to(:follow!) }
     it { should respond_to(:reverse_relationships) }
     it { should respond_to(:followers) }
+    it { should respond_to(:password_reset_token) }
+    it { should respond_to(:password_reset_sent_at) }
     
     it { should be_valid }
     it { should_not be_admin }
@@ -234,6 +236,29 @@ describe User do
         describe "followed users" do
             subject { other_user }
             its(:followers) { should include(@user) }
+        end
+    end
+    
+    describe "password reset" do
+        before do
+            @user.save
+        end
+        
+        it "generates a unique password_reset_token each time" do
+            @user.send_password_reset
+            last_token = @user.password_reset_token
+            @user.send_password_reset
+            @user.password_reset_token.should_not == last_token
+        end
+        
+        it "saves the time the password reset was sent" do
+            @user.send_password_reset
+            @user.reload.password_reset_sent_at.should be_present
+        end
+        
+        it "delivers email to user" do
+            @user.send_password_reset
+            last_email.to.should include(@user.email)
         end
     end
 end

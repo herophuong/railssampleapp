@@ -3,7 +3,7 @@ class UsersController < ApplicationController
     before_filter :signed_in_user, only: [:index, :edit, :update, :destroy, :following, :followers]
     before_filter :correct_user, only: [:edit, :update]
     before_filter :admin_user, only: [:destroy]
-    before_filter :signed_in_user_could_not_sign_up, only: [:new, :create]
+    before_filter :signed_in_user_should_not_visit, only: [:new, :create]
     
     def index
         @users = User.paginate(page: params[:page])
@@ -72,9 +72,5 @@ class UsersController < ApplicationController
         
         def admin_user
             redirect_to(root_path) unless ( current_user.admin? && !User.find(params[:id]).admin? )
-        end
-        
-        def signed_in_user_could_not_sign_up
-            redirect_to(root_path) unless current_user.nil?
         end
 end

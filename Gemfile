@@ -50,6 +50,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # gem 'debugger'
 
 group :test do
+    gem 'sqlite3'
     gem 'rspec-rails', '2.9.0'
     gem 'capybara', '1.1.2'
     gem 'rb-inotify', '0.9'
